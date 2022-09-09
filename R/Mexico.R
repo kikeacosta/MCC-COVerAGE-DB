@@ -8,7 +8,8 @@ cities <-
   read_xlsx("data_input/location_info.xlsx",
             sheet = "cities_info") %>% 
   filter(countryname == "Mexico") %>% 
-  pull(cityname)
+  pull(cityname) %>% 
+  str_to_title()
 
 # cases_url <- "https://www.arcgis.com/sharing/rest/content/items/f10774f1c63e40168479a1feb6c7ca74/data"
 data_source <- "data_input/mexico.csv"
@@ -20,4 +21,9 @@ df <-
 
 df2 <- 
   df %>% 
-  select(-cve_ent, -poblacion, city = nombre, everything())
+  select(-cve_ent, -poblacion, city = nombre, everything()) %>% 
+  gather(-city, key = date, value = cases)
+# %>% 
+#   filter(city %in% cities)
+
+unique(df2$city) %>% sort()
